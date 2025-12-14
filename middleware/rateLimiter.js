@@ -2,7 +2,8 @@ const ratelimit = require("../config/rateLimit")
 
 async function RateLimiter(req, res, next) {
   try {
- const identifier = "api";
+
+ const identifier =  req?.ip || "api";
 const { success } = await ratelimit.limit(identifier);
 
 if (!success) {
