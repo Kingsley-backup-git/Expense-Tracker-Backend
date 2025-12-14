@@ -10,7 +10,7 @@ async function AddExpense(req, res) {
 
     const expense = new expenseCollection({
       name,
-      amount: category === "expense" ? -amount : amount,
+      amount,
       category,
       userId,
     });
@@ -96,8 +96,33 @@ async function getTransactions(req, res) {
 }
 
 
+
+async function deleteTransaction(req, res) {
+  try {
+
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "All Fields are required" });
+    }
+
+      const expense = await expenseCollection.findByIdAndDelete(id)
+
+      if (!expense) {
+           return res.status(404).json({ message: "No expenses found" });
+      }
+      
+    await expense.save()
+    return res.status(204).json({ data: expense });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server error"});
+  }
+}
+
 module.exports = {
     AddExpense,
     getSummary,
-    getTransactions
+  getTransactions,
+    deleteTransaction
 };

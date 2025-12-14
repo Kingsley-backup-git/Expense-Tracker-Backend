@@ -15,7 +15,7 @@ const ExpenseSchema = new Schema({
     
     category: {
         type: String,
-        enum: ["expense", "income"],
+      
         required : true
     },
 
