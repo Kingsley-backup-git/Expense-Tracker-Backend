@@ -3,7 +3,7 @@ require("dotenv").config()
 
 module.exports = async function keepAlive() {
   try {
-    const url = process.env.RENDER_URL; 
+    const url = process.env.API_URL; 
 
     if (!url) {
       return console.log("⚠️ No RENDER_URL set");
