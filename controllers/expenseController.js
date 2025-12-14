@@ -8,6 +8,7 @@ async function AddExpense(req, res) {
       return res.status(400).json({ message: "All Fields are required" });
     }
 
+  
     const expense = new expenseCollection({
       name,
       amount,
@@ -45,12 +46,12 @@ async function getSummary(req, res) {
           balance: { $sum: "$amount" },
           income: {
             $sum: {
-              $cond: [{ $eq: ["$category", "income"] }, "$amount", 0],
+              $cond: [{ $gt: ["$amount", 0] }, "$amount", 0],
             },
           },
           expense: {
             $sum: {
-              $cond: [{ $eq: ["$category", "expense"] }, "$amount", 0],
+              $cond: [{ $lt: ["$amount", 0] }, "$amount", 0],
             },
           },
         },
